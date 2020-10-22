@@ -3,9 +3,6 @@ import os
 import shutil
 
 FUSION_COMP_FOLDER = os.path.expanduser( "~/Library/Application Support/Blackmagic Design/Fusion/Scripts" )
-# os.chdir( 'Comp' )
-# print(  FUSION_COMP_FOLDER )
-# print( shutil.copytree( '.', FUSION_COMP_FOLDER, symlinks=True ) )
 
 # find all the files under Comp and copy them to the library folder
 for subdir, dirs, files in os.walk( 'Comp' ):

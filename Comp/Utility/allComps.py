@@ -10,6 +10,7 @@ fu = bmd.scriptapp("Fusion")
 
 compList = fu.GetCompList().values()
 for comp in compList:
+    # get all Composition attributes and print a couple that are of interest.
     compAttrs = comp.GetAttrs()
     compName = compAttrs["COMPS_Name"]
     compFile = compAttrs["COMPS_FileName"]
@@ -42,6 +43,7 @@ for comp in compList:
     'COMPS_LoopMode': 'loop',
     'COMPS_Name': 'test2.comp'}
     '''
+    # Get all composition FrameFormat preferences.
     compPrefs = comp.GetPrefs()['Comp']['FrameFormat']
     frameFormatGuideRatio  = compPrefs['GuideRatio']
     frameFormatHeight      = compPrefs['Height']

@@ -12,9 +12,12 @@ compList = fu.GetCompList().values()
 for comp in compList:
     # get all Composition attributes and print a couple that are of interest.
     compAttrs = comp.GetAttrs()
-    compName = compAttrs["COMPS_Name"]
-    compFile = compAttrs["COMPS_FileName"]
-    pprint( f'Name: {compName},  File: {compFile}' )
+    compName  = compAttrs["COMPS_Name"]
+    compFile  = compAttrs["COMPS_FileName"]
+    compHiQ   = compAttrs["COMPB_HiQ"]
+    compMB    = compAttrs["COMPB_MotionBlur"]
+    compProxy = compAttrs["COMPB_Proxy"]
+    pprint( f'Name: {compName},  File: {compFile}, HiQ: {compHiQ},  MB: {compMB},  Proxy: {compProxy}' )
     #pprint( compAttrs )
     '''
     {'COMPB_HiQ': True,
@@ -53,8 +56,8 @@ for comp in compList:
     pprint( f'Composition Name: {compName}')
     pprint( f'            File: {compFile.strip()}' )
     pprint( f'          Format: {frameFormatName}' )
-    pprint( f'                  {frameFormatWidth}x{frameFormatHeight}' )
-    pprint( f'                  {frameFormatRate}fps' )
+    pprint( f'                  {frameFormatWidth} x {frameFormatHeight}' )
+    pprint( f'                  {frameFormatRate} fps' )
     pprint( f'                  {frameFormatGuideRatio}' )
     #pprint( compPrefs )
     '''

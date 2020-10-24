@@ -55,12 +55,12 @@ def reportOnInputs( tool ) :
     #
     pprint( f"          Inputs  for {tool.Name}" )
     inputs = tool.GetInputList().values()
-    allNames = ''
-    separator = ''
+    #allNames = ''
+    #separator = ''
     for toolInput in inputs :
-        allNames += f'{separator}[Name: {toolInput.Name}, ID: {toolInput.ID}, {toolInput.GetAttrs("INPS_DataType")}]'
-        separator = ', '
-        #pprint( f'      --- input name: {toolInput.Name}, ID: {toolInput.ID}, data type: {toolInput.GetAttrs("INPS_DataType")}' )
+        #allNames += f'{separator}[Name: {toolInput.Name}, ID: {toolInput.ID}, {toolInput.GetAttrs("INPS_DataType")}]'
+        #separator = ', '
+        pprint( f'      --- input name: {toolInput.Name}, ID: {toolInput.ID}, data type: {toolInput.GetAttrs("INPS_DataType")}    control page: {toolInput.GetAttrs("INPS_ICS_ControlPage")}' )
         #pprint( f'     {toolInput.GetAttrs()}' )
         #pprint( f'       id:  {toolInput.GetID()}' )
         #pprint( f'               control page: {toolInput.GetAttrs("INPS_ICS_ControlPage")}' )
@@ -196,7 +196,7 @@ def reportOnAllTools( comp ) :
         comp.CurrentFrame.ViewOn( tool, 1 )
         #
         reportOnToolAttrs( tool )
-        # reportOnInputs( tool )
+        reportOnInputs( tool )
         # reportOnMainInputs( tool )
         # reportOnOutputs( tool )
         # reportOnUserControls( tool )
@@ -219,10 +219,13 @@ def changeAllTools( comp ) :
         if 'TOOLI_ImageWidth' in toolAttrs :
             pprint( f'               imageWidth:   {tool.GetAttrs("TOOLI_ImageWidth")}' )
             pprint( f'               imageHeight:  {tool.GetAttrs("TOOLI_ImageHeight")}' )
-        tool.SetAttrs( {"TOOLI_ImageWidth":formats['LowRes']['Width'], "TOOLI_ImageHeight":formats['LowRes']['Height']} )
-        pprint( f'               imageWidth:   {tool.GetAttrs("TOOLI_ImageWidth")}' )
-        pprint( f'               imageHeight:  {tool.GetAttrs("TOOLI_ImageHeight")}' )
-        pprint( f" ^^^^^^^^  end for {tool.Name}" )
+        inputs = tool.GetInputList().values()
+        for toolInput in inputs :
+            if ( toolInput.GetAttrs("INPS_ICS_ControlPage") == 'Image' ) :
+                if ( toolInput.ID == 'Width' ) :
+                    tool.SetInput( toolInput.Name, formats['LowRes']['Width'] )
+                if ( toolInput.ID == 'Height' ) :
+                    tool.SetInput( toolInput.Name, formats['LowRes']['Height'] )
 
 
 
@@ -448,10 +451,15 @@ def changeDefault( comp ) :
 
 def main() :
     comp = fu.GetCurrentComp()
-    reportOnComp( comp )
-    reportOnAllTools( comp )
-    #changeDefault( comp )
-    #changeAllTools( comp )
+    # reportOnComp( comp )
+    # reportOnAllTools( comp )
+    comp.Stop()
+    #comp.Lock()
+    comp.StartUndo("Switching to Low Res")
+    changeDefault( comp )
+    changeAllTools( comp )
+    comp.EndUndo(True)
+    #comp.Unlock()
 
 
 if __name__ == "__main__" :

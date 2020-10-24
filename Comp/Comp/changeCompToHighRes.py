@@ -26,6 +26,8 @@ def changeAllTools( comp ) :
         pprint( f'Tool ID: {tool.ID},  Name: {tool.Name}' )
         # Some Attributes will not be visible until the tool is shown in one of the windows.
         # Select and show this tool in window 1
+        comp.Stop()
+        comp.Lock()
         comp.SetActiveTool( tool )
         comp.CurrentFrame.ViewOn( tool, 2 )
         #
@@ -37,10 +39,15 @@ def changeAllTools( comp ) :
         inputs = tool.GetInputList().values()
         for toolInput in inputs :
             if ( toolInput.GetAttrs("INPS_ICS_ControlPage") == 'Image' ) :
-                if ( toolInput.ID == 'Width' ) :
+                pprint( f'      --- input name: {toolInput.Name}, ID: {toolInput.ID}, data type: {toolInput.GetAttrs("INPS_DataType")}    control page: {toolInput.GetAttrs("INPS_ICS_ControlPage")}' )
+                if ( toolInput.ID == 'OutputSize' ) :
+                    pprint( tool.GetInput( toolInput.Name ) )
+                    pprint( toolInput.GetAttrs() )
+                elif ( toolInput.ID == 'Width'  or  toolInput.ID == 'MaskWidth' ) :
                     tool.SetInput( toolInput.Name, formats['HighRes']['Width'] )
-                if ( toolInput.ID == 'Height' ) :
+                elif ( toolInput.ID == 'Height' or  toolInput.ID == 'MaskHeight' ) :
                     tool.SetInput( toolInput.Name, formats['HighRes']['Height'] )
+        comp.Unlock()
 
 def changeDefault( comp ) :
     '''
@@ -61,6 +68,8 @@ def changeDefault( comp ) :
     width  = compPrefsFormat['Width']
     rate   = compPrefsFormat['Rate']
     print( f"            Current config - name: {name}, height: {height}, width: {width}, rate: {rate}")
+    comp.Stop()
+    comp.Lock()
     if ( name != formats['HighRes']['Name'] ):
         print( f"Replacing global preference with {formats['HighRes']['Name']}" )
         rc = comp.SetPrefs(
@@ -72,16 +81,14 @@ def changeDefault( comp ) :
                 "Comp.FrameFormat.Width": formats['HighRes']['Width']
             }
         )
+    comp.Unlock()
 
 def main() :
     comp = fu.GetCurrentComp()
-    comp.Stop()
-    comp.Lock()
     comp.StartUndo("Switching to High Res")
     changeDefault( comp )
     changeAllTools( comp )
     comp.EndUndo(True)
-    comp.Unlock()
 
 if __name__ == "__main__" :
     main()

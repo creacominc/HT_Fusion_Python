@@ -193,8 +193,11 @@ def reportOnAllTools( comp ) :
         pprint( f'Tool ID: {tool.ID},  Name: {tool.Name}' )
         # Some Attributes will not be visible until the tool is shown in one of the windows.
         # Select and show this tool in window 2
+        comp.Stop()
+        comp.Lock()
         comp.SetActiveTool( tool )
         comp.CurrentFrame.ViewOn( tool, 2 )
+        comp.Unlock()
         #
         reportOnToolAttrs( tool )
         # reportOnInputs( tool )
@@ -399,12 +402,12 @@ def reportOnComp( comp ) :
 def main() :
     comp = fu.GetCurrentComp()
     comp.Stop()
-    #comp.Lock()
+    # comp.Lock()
     comp.StartUndo("Reporting")
     reportOnComp( comp )
     reportOnAllTools( comp )
     comp.EndUndo(True)
-    #comp.Unlock()
+    # comp.Unlock()
 
 
 if __name__ == "__main__" :

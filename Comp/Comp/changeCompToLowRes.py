@@ -39,7 +39,7 @@ def changeAllTools( comp ) :
         inputs = tool.GetInputList().values()
         for toolInput in inputs :
             if ( toolInput.GetAttrs("INPS_ICS_ControlPage") == 'Image' ) :
-                pprint( f'      --- input name: {toolInput.Name}, ID: {toolInput.ID}, data type: {toolInput.GetAttrs("INPS_DataType")}    control page: {toolInput.GetAttrs("INPS_ICS_ControlPage")}' )
+                # pprint( f'      --- input name: {toolInput.Name}, ID: {toolInput.ID}, data type: {toolInput.GetAttrs("INPS_DataType")}    control page: {toolInput.GetAttrs("INPS_ICS_ControlPage")}' )
                 # if ( toolInput.ID == 'OutputSize' ) :
                 #     pprint( tool.GetInput( toolInput.Name ) )
                 #     pprint( toolInput.GetAttrs() )

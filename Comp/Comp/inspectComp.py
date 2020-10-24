@@ -192,9 +192,9 @@ def reportOnAllTools( comp ) :
         pprint( '' )
         pprint( f'Tool ID: {tool.ID},  Name: {tool.Name}' )
         # Some Attributes will not be visible until the tool is shown in one of the windows.
-        # Select and show this tool in window 1
+        # Select and show this tool in window 2
         comp.SetActiveTool( tool )
-        comp.CurrentFrame.ViewOn( tool, 1 )
+        comp.CurrentFrame.ViewOn( tool, 2 )
         #
         reportOnToolAttrs( tool )
         # reportOnInputs( tool )

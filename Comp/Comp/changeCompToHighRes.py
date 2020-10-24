@@ -40,10 +40,10 @@ def changeAllTools( comp ) :
         for toolInput in inputs :
             if ( toolInput.GetAttrs("INPS_ICS_ControlPage") == 'Image' ) :
                 pprint( f'      --- input name: {toolInput.Name}, ID: {toolInput.ID}, data type: {toolInput.GetAttrs("INPS_DataType")}    control page: {toolInput.GetAttrs("INPS_ICS_ControlPage")}' )
-                if ( toolInput.ID == 'OutputSize' ) :
-                    pprint( tool.GetInput( toolInput.Name ) )
-                    pprint( toolInput.GetAttrs() )
-                elif ( toolInput.ID == 'Width'  or  toolInput.ID == 'MaskWidth' ) :
+                # if ( toolInput.ID == 'OutputSize' ) :
+                #     pprint( tool.GetInput( toolInput.Name ) )
+                #     pprint( toolInput.GetAttrs() )
+                if ( toolInput.ID == 'Width'  or  toolInput.ID == 'MaskWidth' ) :
                     tool.SetInput( toolInput.Name, formats['HighRes']['Width'] )
                 elif ( toolInput.ID == 'Height' or  toolInput.ID == 'MaskHeight' ) :
                     tool.SetInput( toolInput.Name, formats['HighRes']['Height'] )
